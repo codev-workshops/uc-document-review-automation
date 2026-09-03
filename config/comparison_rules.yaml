@@ -1,0 +1,75 @@
+# Document comparison rules and thresholds
+
+confidence_threshold: 0.95
+
+field_rules:
+  # Exact match required
+  exact_match:
+    - loan_number
+    - certificate_number
+    - tracking_number
+
+  # Fuzzy matching with tolerance
+  fuzzy_match:
+    name_fields:
+      threshold: 0.85
+      fields:
+        - borrower_name
+        - original_borrower
+        - new_borrower
+        - recipient_name
+    address_fields:
+      threshold: 0.80
+      fields:
+        - property_address
+        - recipient_address
+
+  # Numeric comparison with tolerance
+  amount_fields:
+    tolerance: 0.01
+    fields:
+      - loan_amount
+      - original_amount
+      - current_balance
+      - new_payment_amount
+
+  # Rate comparison
+  rate_fields:
+    tolerance: 0.001
+    fields:
+      - interest_rate
+      - new_interest_rate
+      - coverage_percentage
+
+# Critical fields that trigger rejection on mismatch
+critical_fields:
+  - loan_number
+  - loan_amount
+  - interest_rate
+  - maturity_date
+  - new_payment_amount
+  - new_interest_rate
+  - coverage_percentage
+
+# Document types and their expected fields
+document_type_fields:
+  loan_modification:
+    required:
+      - loan_number
+      - borrower_name
+      - modification_date
+      - new_payment_amount
+    optional:
+      - new_interest_rate
+      - new_maturity_date
+      - property_address
+
+  mi_certificate:
+    required:
+      - loan_number
+      - certificate_number
+      - coverage_percentage
+      - effective_date
+    optional:
+      - borrower_name
+      - insurer_name

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LoanCorrectionRecord",
+  "type": "object",
+  "required": ["correction_id", "loan_number", "correction_type", "current_value", "proposed_value"],
+  "properties": {
+    "correction_id": {
+      "type": "string",
+      "pattern": "^COR-[0-9]{6}$"
+    },
+    "loan_number": {
+      "type": "string",
+      "pattern": "^[0-9]{10}$"
+    },
+    "correction_type": {
+      "type": "string",
+      "enum": [
+        "borrower_name",
+        "property_address",
+        "loan_amount",
+        "interest_rate",
+        "maturity_date",
+        "payment_amount",
+        "mi_coverage",
+        "loan_type",
+        "occupancy_status"
+      ]
+    },
+    "current_value": { "type": "string" },
+    "proposed_value": { "type": "string" },
+    "submitted_by": { "type": "string" },
+    "submitted_at": { "type": "string", "format": "date-time" },
+    "supporting_document_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "borrower_name": { "type": "string" },
+    "property_address": { "type": "string" },
+    "loan_amount": { "type": "number" },
+    "interest_rate": { "type": "number" },
+    "maturity_date": { "type": "string", "format": "date" },
+    "notes": { "type": "string" }
+  }
+}
