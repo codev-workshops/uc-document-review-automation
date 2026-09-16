@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from src.models.document import (
+    DocumentMetadata,
     DocumentType,
     ExtractedField,
     ExtractionResult,

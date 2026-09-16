@@ -6,6 +6,7 @@ from typing import Optional
 
 from src.models.document import (
     DocumentType,
+    ExtractedField,
     ExtractionResult,
     ExtractionStatus,
 )
