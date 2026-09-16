@@ -13,6 +13,8 @@ class ReviewDecision(Enum):
 
 
 class MismatchSeverity(Enum):
+    """Mismatch severity; INFO is advisory and never causes rejection."""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -29,6 +31,7 @@ class FieldComparison:
     similarity_score: float
     mismatch_severity: Optional[MismatchSeverity] = None
     notes: str = ""
+    extraction_confidence: Optional[float] = None
 
 
 @dataclass
@@ -73,3 +76,6 @@ class AuditEntry:
     decision: Optional[ReviewDecision] = None
     confidence: Optional[float] = None
     metadata: dict[str, str] = field(default_factory=dict)
+    loan_number: Optional[str] = None
+    correction_id: Optional[str] = None
+    document_id: Optional[str] = None

@@ -49,12 +49,21 @@ class DecisionAgent:
             )
         elif any_mismatches or overall_confidence < self.confidence_threshold:
             decision = ReviewDecision.MANUAL_REVIEW
-            escalation_reason = (
-                f"Confidence {overall_confidence:.2%} below threshold "
-                f"({self.confidence_threshold:.2%})"
-                if overall_confidence < self.confidence_threshold
-                else "Non-critical field mismatches require human review"
-            )
+            info_comparisons = [
+                c for c in comparisons if c.mismatch_severity == MismatchSeverity.INFO
+            ]
+            if info_comparisons:
+                escalation_reason = (
+                    "Unparseable field(s) require human review: "
+                    + ", ".join(c.field_name for c in info_comparisons)
+                )
+            else:
+                escalation_reason = (
+                    f"Confidence {overall_confidence:.2%} below threshold "
+                    f"({self.confidence_threshold:.2%})"
+                    if overall_confidence < self.confidence_threshold
+                    else "Non-critical field mismatches require human review"
+                )
         else:
             decision = ReviewDecision.AUTO_APPROVED
             escalation_reason = None
