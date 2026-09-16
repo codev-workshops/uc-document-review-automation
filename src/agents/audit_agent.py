@@ -20,10 +20,20 @@ class AuditAgent:
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
         self.entries: list[AuditEntry] = []
 
-    def log_extraction(self, document_id, document_type, field_count, status) -> AuditEntry:
+    def log_extraction(
+        self,
+        document_id: str,
+        document_type: str,
+        field_count: int,
+        status: str,
+    ) -> AuditEntry:
+        """Log a document extraction event."""
         entry = AuditEntry(
-            audit_id=f"aud-{uuid4().hex[:8]}", review_id="", action="document_extraction",
-            timestamp=datetime.utcnow(), agent_name="DocumentExtractionAgent",
+            audit_id=f"aud-{uuid4().hex[:8]}",
+            review_id="",
+            action="document_extraction",
+            timestamp=datetime.utcnow(),
+            agent_name="DocumentExtractionAgent",
             input_summary=f"document_id={document_id}, type={document_type}",
             output_summary=f"fields_extracted={field_count}, status={status}",
             document_id=document_id,
@@ -31,10 +41,20 @@ class AuditAgent:
         self._persist(entry)
         return entry
 
-    def log_comparison(self, review_id, correction_id, total_fields, mismatches) -> AuditEntry:
+    def log_comparison(
+        self,
+        review_id: str,
+        correction_id: str,
+        total_fields: int,
+        mismatches: int,
+    ) -> AuditEntry:
+        """Log a field comparison event."""
         entry = AuditEntry(
-            audit_id=f"aud-{uuid4().hex[:8]}", review_id=review_id, action="field_comparison",
-            timestamp=datetime.utcnow(), agent_name="ComparisonAgent",
+            audit_id=f"aud-{uuid4().hex[:8]}",
+            review_id=review_id,
+            action="field_comparison",
+            timestamp=datetime.utcnow(),
+            agent_name="ComparisonAgent",
             input_summary=f"correction_id={correction_id}",
             output_summary=f"total_fields={total_fields}, mismatches={mismatches}",
             correction_id=correction_id,
@@ -43,50 +63,76 @@ class AuditAgent:
         return entry
 
     def log_decision(self, result: ReviewResult) -> AuditEntry:
+        """Log a review decision event."""
         entry = AuditEntry(
-            audit_id=f"aud-{uuid4().hex[:8]}", review_id=result.review_id,
-            action="review_decision", timestamp=datetime.utcnow(), agent_name="DecisionAgent",
-            input_summary=f"correction_id={result.correction_id}, loan={result.loan_number}",
-            output_summary=f"decision={result.decision.value}, confidence={result.overall_confidence:.4f}",
-            decision=result.decision, confidence=result.overall_confidence,
+            audit_id=f"aud-{uuid4().hex[:8]}",
+            review_id=result.review_id,
+            action="review_decision",
+            timestamp=datetime.utcnow(),
+            agent_name="DecisionAgent",
+            input_summary=(
+                f"correction_id={result.correction_id}, "
+                f"loan={result.loan_number}"
+            ),
+            output_summary=(
+                f"decision={result.decision.value}, "
+                f"confidence={result.overall_confidence:.4f}"
+            ),
+            decision=result.decision,
+            confidence=result.overall_confidence,
             metadata={
                 "mismatch_count": str(result.mismatch_count),
                 "escalation_reason": result.escalation_reason or "",
             },
-            correction_id=result.correction_id, loan_number=result.loan_number,
+            correction_id=result.correction_id,
+            loan_number=result.loan_number,
         )
         self._persist(entry)
         return entry
 
     def _persist(self, entry: AuditEntry) -> None:
+        """Append an audit entry to the log file and in-memory list."""
         self.entries.append(entry)
         record = {
-            "audit_id": entry.audit_id, "review_id": entry.review_id, "action": entry.action,
-            "timestamp": entry.timestamp.isoformat(), "agent_name": entry.agent_name,
-            "input_summary": entry.input_summary, "output_summary": entry.output_summary,
+            "audit_id": entry.audit_id,
+            "review_id": entry.review_id,
+            "action": entry.action,
+            "timestamp": entry.timestamp.isoformat(),
+            "agent_name": entry.agent_name,
+            "input_summary": entry.input_summary,
+            "output_summary": entry.output_summary,
             "decision": entry.decision.value if entry.decision else None,
-            "confidence": entry.confidence, "metadata": entry.metadata,
-            "loan_number": entry.loan_number, "correction_id": entry.correction_id,
+            "confidence": entry.confidence,
+            "metadata": entry.metadata,
+            "loan_number": entry.loan_number,
+            "correction_id": entry.correction_id,
             "document_id": entry.document_id,
         }
-        with self.log_path.open("a") as stream:
-            stream.write(json.dumps(record) + "\n")
+        with open(self.log_path, "a") as f:
+            f.write(json.dumps(record) + "\n")
 
     @staticmethod
     def _entry_from_record(record: dict) -> AuditEntry:
+        """Build an audit entry from a persisted record."""
         decision = record.get("decision")
         return AuditEntry(
-            audit_id=record["audit_id"], review_id=record["review_id"],
-            action=record["action"], timestamp=datetime.fromisoformat(record["timestamp"]),
-            agent_name=record["agent_name"], input_summary=record["input_summary"],
+            audit_id=record["audit_id"],
+            review_id=record["review_id"],
+            action=record["action"],
+            timestamp=datetime.fromisoformat(record["timestamp"]),
+            agent_name=record["agent_name"],
+            input_summary=record["input_summary"],
             output_summary=record["output_summary"],
             decision=ReviewDecision(decision) if decision is not None else None,
-            confidence=record.get("confidence"), metadata=record.get("metadata", {}),
-            loan_number=record.get("loan_number"), correction_id=record.get("correction_id"),
+            confidence=record.get("confidence"),
+            metadata=record.get("metadata", {}),
+            loan_number=record.get("loan_number"),
+            correction_id=record.get("correction_id"),
             document_id=record.get("document_id"),
         )
 
     def load_persisted_entries(self) -> list[AuditEntry]:
+        """Load persisted audit entries without changing local state."""
         if not self.log_path.exists():
             return []
         with self.log_path.open() as stream:
@@ -96,6 +142,7 @@ class AuditAgent:
             ]
 
     def _all_entries(self, include_persisted: bool) -> list[AuditEntry]:
+        """Return persisted and in-memory entries according to the flag."""
         if not include_persisted:
             return list(self.entries)
         persisted = self.load_persisted_entries()
@@ -103,13 +150,23 @@ class AuditAgent:
         return persisted + [entry for entry in self.entries if entry.audit_id not in known]
 
     def query_entries(
-        self, *, decision: Optional[ReviewDecision] = None, action: Optional[str] = None,
-        agent_name: Optional[str] = None, min_confidence: Optional[float] = None,
-        max_confidence: Optional[float] = None, start: Optional[datetime] = None,
-        end: Optional[datetime] = None, loan_number=None, correction_id=None,
-        document_id=None, review_id=None, predicate: Optional[Callable[[AuditEntry], bool]] = None,
+        self,
+        *,
+        decision: Optional[ReviewDecision] = None,
+        action: Optional[str] = None,
+        agent_name: Optional[str] = None,
+        min_confidence: Optional[float] = None,
+        max_confidence: Optional[float] = None,
+        start: Optional[datetime] = None,
+        end: Optional[datetime] = None,
+        loan_number: Optional[str] = None,
+        correction_id: Optional[str] = None,
+        document_id: Optional[str] = None,
+        review_id: Optional[str] = None,
+        predicate: Optional[Callable[[AuditEntry], bool]] = None,
         include_persisted: bool = False,
     ) -> list[AuditEntry]:
+        """Return entries matching all supplied filters."""
         entries = self._all_entries(include_persisted)
         return [
             entry for entry in entries
@@ -131,23 +188,55 @@ class AuditAgent:
             and (predicate is None or predicate(entry))
         ]
 
-    def get_entries_by_decision(self, decision, include_persisted=False):
+    def get_entries_by_decision(
+        self,
+        decision: ReviewDecision,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries with the requested decision."""
         return self.query_entries(decision=decision, include_persisted=include_persisted)
 
-    def get_low_confidence_entries(self, threshold, include_persisted=False):
+    def get_low_confidence_entries(
+        self,
+        threshold: float,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries below the confidence threshold."""
         return self.query_entries(max_confidence=threshold, include_persisted=include_persisted)
 
-    def get_entries_by_action(self, action, include_persisted=False):
+    def get_entries_by_action(
+        self,
+        action: str,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries with the requested action."""
         return self.query_entries(action=action, include_persisted=include_persisted)
 
-    def get_entries_by_agent(self, agent_name, include_persisted=False):
+    def get_entries_by_agent(
+        self,
+        agent_name: str,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries produced by the requested agent."""
         return self.query_entries(agent_name=agent_name, include_persisted=include_persisted)
 
-    def get_entries_in_range(self, start, end, include_persisted=False):
+    def get_entries_in_range(
+        self,
+        start: datetime,
+        end: datetime,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries whose timestamps fall within an inclusive range."""
         return self.query_entries(start=start, end=end, include_persisted=include_persisted)
 
-    def get_entries_by_loan_number(self, loan_number, include_persisted=False):
+    def get_entries_by_loan_number(
+        self,
+        loan_number: str,
+        include_persisted: bool = False,
+    ) -> list[AuditEntry]:
+        """Return entries for the requested loan number."""
         return self.query_entries(loan_number=loan_number, include_persisted=include_persisted)
 
     def get_entries_for_review(self, review_id: str) -> list[AuditEntry]:
-        return [entry for entry in self.entries if entry.review_id == review_id]
+        """Retrieve all audit entries for a specific review."""
+        return [e for e in self.entries if e.review_id == review_id]

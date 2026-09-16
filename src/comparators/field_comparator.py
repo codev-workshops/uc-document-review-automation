@@ -42,6 +42,7 @@ class FieldComparator:
         exact_match_fields: Optional[Iterable[str]] = None,
         critical_fields: Optional[Iterable[str]] = None,
         similarity: Optional[Callable[[str, str], float]] = None,
+        tolerant_threshold: float = 0.85,
     ) -> None:
         self.exact_match_fields = set(
             EXACT_MATCH_FIELDS if exact_match_fields is None else exact_match_fields
@@ -50,6 +51,7 @@ class FieldComparator:
             CRITICAL_FIELDS if critical_fields is None else critical_fields
         )
         self.similarity = similarity or self._fuzzy_similarity
+        self.tolerant_threshold = tolerant_threshold
 
     def compare(
         self,
@@ -66,7 +68,7 @@ class FieldComparator:
             similarity = 1.0 if is_match else 0.0
         elif field_name in TOLERANT_FIELDS:
             similarity = self.similarity(doc_normalized, rec_normalized)
-            is_match = similarity >= 0.85
+            is_match = similarity >= self.tolerant_threshold
         else:
             is_match = doc_normalized == rec_normalized
             similarity = 1.0 if is_match else self.similarity(

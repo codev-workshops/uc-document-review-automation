@@ -4,13 +4,13 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from src.comparators.amount_comparator import AmountComparator, ComparisonStatus
-from src.comparators.date_comparator import DateComparator
-from src.comparators.field_comparator import (
-    CRITICAL_FIELDS,
-    EXACT_MATCH_FIELDS,
-    FieldComparator,
+from src.comparators.amount_comparator import (
+    AmountComparator,
+    ComparisonStatus,
+    NumericComparison,
 )
+from src.comparators.date_comparator import DateComparator
+from src.comparators.field_comparator import FieldComparator
 from src.comparators.field_sets import (
     ADDRESS_FIELDS,
     AMOUNT_FIELDS,
@@ -25,6 +25,16 @@ from src.models.review_result import FieldComparison, MismatchSeverity
 from src.utils.config import ComparisonConfig, load_comparison_config
 
 logger = logging.getLogger(__name__)
+
+__all__ = [
+    "ADDRESS_FIELDS",
+    "AMOUNT_FIELDS",
+    "DATE_FIELDS",
+    "NAME_FIELDS",
+    "RATE_FIELDS",
+    "CORRECTION_FIELD_NAMES",
+    "ComparisonAgent",
+]
 
 CORRECTION_FIELD_NAMES: dict[CorrectionType, str] = {
     CorrectionType.BORROWER_NAME: "borrower_name",
@@ -94,6 +104,7 @@ class ComparisonAgent:
         extraction: ExtractionResult,
         record: LoanCorrectionRecord,
     ) -> list[FieldComparison]:
+        """Compare all extracted fields against the loan correction record."""
         comparisons: list[FieldComparison] = []
         record_fields = self._record_to_fields(record)
         for field_name, record_value in record_fields.items():
@@ -127,7 +138,7 @@ class ComparisonAgent:
             "Comparison complete for correction %s: %d fields, %d mismatches",
             record.correction_id,
             len(comparisons),
-            sum(1 for comparison in comparisons if not comparison.is_match),
+            sum(1 for c in comparisons if not c.is_match),
         )
         return comparisons
 
@@ -138,6 +149,7 @@ class ComparisonAgent:
         record_value: str,
         confidence: Optional[float] = None,
     ) -> FieldComparison:
+        """Route a field comparison to the appropriate comparator."""
         route = self.route(field_name)
         notes: list[str] = []
         extraction_confidence = confidence
@@ -178,7 +190,13 @@ class ComparisonAgent:
             extraction_confidence=extraction_confidence,
         )
 
-    def _numeric_result(self, field_name, result, notes):
+    def _numeric_result(
+        self,
+        field_name: str,
+        result: NumericComparison,
+        notes: list[str],
+    ) -> tuple[bool, float, Optional[MismatchSeverity]]:
+        """Convert a numeric comparison into a field comparison result."""
         if result.status is ComparisonStatus.UNPARSEABLE:
             notes.append("unparseable value; requires manual review")
             return False, 0.0, MismatchSeverity.INFO
@@ -197,7 +215,10 @@ class ComparisonAgent:
 
     @staticmethod
     def _record_to_fields(record: LoanCorrectionRecord) -> dict[str, str]:
-        """Emit base values first, then explicitly override the proposed correction field."""
+        """Flatten a loan correction record into a field-name → value map.
+
+        The document is validated against the proposed value; current_value is not compared.
+        """
         fields: dict[str, str] = {"loan_number": record.loan_number}
         if record.borrower_name:
             fields["borrower_name"] = record.borrower_name
@@ -212,10 +233,3 @@ class ComparisonAgent:
         target = CORRECTION_FIELD_NAMES[record.correction_type]
         fields[target] = record.proposed_value
         return fields
-
-
-NAME_FIELDS = NAME_FIELDS
-ADDRESS_FIELDS = ADDRESS_FIELDS
-AMOUNT_FIELDS = AMOUNT_FIELDS
-RATE_FIELDS = RATE_FIELDS
-DATE_FIELDS = DATE_FIELDS

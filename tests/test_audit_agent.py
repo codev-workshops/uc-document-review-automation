@@ -2,12 +2,12 @@
 
 import json
 import tempfile
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from src.agents.audit_agent import AuditAgent
 from src.models.review_result import (
     FieldComparison,
-    MismatchSeverity,
     ReviewDecision,
     ReviewResult,
 )
@@ -88,3 +88,109 @@ class TestAuditAgent:
         self.agent.log_extraction("doc-001", "pdf", 3, "completed")
         self.agent.log_comparison("rev-001", "corr-001", 5, 0)
         assert len(self.agent.entries) == 2
+
+    def test_typed_ids_are_persisted(self):
+        extraction = self.agent.log_extraction("doc-001", "pdf", 3, "completed")
+        comparison = self.agent.log_comparison("rev-001", "corr-001", 5, 0)
+        result = ReviewResult(
+            review_id="rev-001",
+            correction_id="corr-001",
+            loan_number="loan-001",
+            decision=ReviewDecision.AUTO_APPROVED,
+            overall_confidence=0.98,
+        )
+        decision = self.agent.log_decision(result)
+        records = [json.loads(line) for line in Path(self.log_path).read_text().splitlines()]
+        assert extraction.document_id == "doc-001"
+        assert comparison.correction_id == "corr-001"
+        assert decision.loan_number == "loan-001"
+        assert records[0]["document_id"] == "doc-001"
+        assert records[1]["correction_id"] == "corr-001"
+        assert records[2]["correction_id"] == "corr-001"
+        assert records[2]["loan_number"] == "loan-001"
+
+    def test_get_entries_by_decision(self):
+        result = ReviewResult(
+            review_id="rev-001",
+            correction_id="corr-001",
+            loan_number="loan-001",
+            decision=ReviewDecision.AUTO_APPROVED,
+            overall_confidence=0.98,
+        )
+        entry = self.agent.log_decision(result)
+        assert self.agent.get_entries_by_decision(ReviewDecision.AUTO_APPROVED) == [entry]
+
+    def test_get_entries_by_action(self):
+        entry = self.agent.log_comparison("rev-001", "corr-001", 5, 0)
+        assert self.agent.get_entries_by_action("field_comparison") == [entry]
+
+    def test_get_entries_by_agent(self):
+        entry = self.agent.log_extraction("doc-001", "pdf", 3, "completed")
+        assert self.agent.get_entries_by_agent("DocumentExtractionAgent") == [entry]
+
+    def test_low_confidence_excludes_entries_without_confidence(self):
+        self.agent.log_extraction("doc-001", "pdf", 3, "completed")
+        self.agent.log_comparison("rev-001", "corr-001", 5, 0)
+        result = ReviewResult(
+            review_id="rev-001",
+            correction_id="corr-001",
+            loan_number="loan-001",
+            decision=ReviewDecision.MANUAL_REVIEW,
+            overall_confidence=0.8,
+        )
+        entry = self.agent.log_decision(result)
+        assert self.agent.get_low_confidence_entries(0.9) == [entry]
+
+    def test_get_entries_in_range(self):
+        start = datetime.utcnow() - timedelta(seconds=1)
+        entry = self.agent.log_comparison("rev-001", "corr-001", 5, 0)
+        end = datetime.utcnow() + timedelta(seconds=1)
+        assert self.agent.get_entries_in_range(start, end) == [entry]
+
+    def test_compound_query_filters(self):
+        result = ReviewResult(
+            review_id="rev-001",
+            correction_id="corr-001",
+            loan_number="loan-001",
+            decision=ReviewDecision.AUTO_APPROVED,
+            overall_confidence=0.8,
+        )
+        entry = self.agent.log_decision(result)
+        assert self.agent.query_entries(
+            decision=ReviewDecision.AUTO_APPROVED,
+            max_confidence=0.9,
+        ) == [entry]
+
+    def test_get_entries_by_loan_number(self):
+        result = ReviewResult(
+            review_id="rev-001",
+            correction_id="corr-001",
+            loan_number="loan-001",
+            decision=ReviewDecision.AUTO_APPROVED,
+            overall_confidence=0.98,
+        )
+        entry = self.agent.log_decision(result)
+        assert self.agent.get_entries_by_loan_number("loan-001") == [entry]
+
+    def test_disk_backed_queries_and_read_only_load(self):
+        old_line = {
+            "audit_id": "old-1",
+            "review_id": "old-review",
+            "action": "old_action",
+            "timestamp": "2020-01-01T00:00:00",
+            "agent_name": "OldAgent",
+            "input_summary": "",
+            "output_summary": "",
+            "decision": None,
+            "confidence": None,
+            "metadata": {},
+        }
+        Path(self.log_path).write_text(json.dumps(old_line) + "\n\n")
+        self.agent.log_extraction("doc-001", "pdf", 3, "completed")
+        before_entries = list(self.agent.entries)
+        before_bytes = Path(self.log_path).read_bytes()
+        assert len(self.agent.query_entries(include_persisted=True)) == 2
+        assert len(self.agent.query_entries()) == 1
+        assert self.agent.load_persisted_entries()[0].document_id is None
+        assert self.agent.entries == before_entries
+        assert Path(self.log_path).read_bytes() == before_bytes

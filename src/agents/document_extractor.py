@@ -10,7 +10,6 @@ from src.extractors.image_extractor import ImageExtractor
 from src.extractors.pdf_extractor import PDFExtractor
 from src.models.document import (
     DocumentMetadata,
-    DocumentType,
     ExtractionResult,
     ExtractionStatus,
 )

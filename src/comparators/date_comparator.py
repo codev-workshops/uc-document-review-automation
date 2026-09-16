@@ -12,14 +12,20 @@ DATE_FORMATS = (
 
 
 class DateComparator:
+    """Compares dates across common document formats."""
+
     def __init__(self, formats: Iterable[str] = DATE_FORMATS):
         self.formats = tuple(formats)
 
     @staticmethod
-    def parse_date(value: str) -> Optional[date]:
+    def parse_date(
+        value: str,
+        formats: Iterable[str] = DATE_FORMATS,
+    ) -> Optional[date]:
+        """Parse a date using the supplied formats."""
         if not value or not value.strip():
             return None
-        for fmt in DATE_FORMATS:
+        for fmt in formats:
             try:
                 return datetime.strptime(value.strip(), fmt).date()
             except ValueError:
@@ -27,20 +33,10 @@ class DateComparator:
         return None
 
     def compare(self, a: str, b: str) -> NumericComparison:
-        parsed_a = self._parse_with_formats(a)
-        parsed_b = self._parse_with_formats(b)
+        parsed_a = self.parse_date(a, self.formats)
+        parsed_b = self.parse_date(b, self.formats)
         if parsed_a is None or parsed_b is None:
             return NumericComparison(False, 0.0, ComparisonStatus.UNPARSEABLE)
         if parsed_a == parsed_b:
             return NumericComparison(True, 1.0, ComparisonStatus.MATCH)
         return NumericComparison(False, 0.0, ComparisonStatus.MISMATCH)
-
-    def _parse_with_formats(self, value: str) -> Optional[date]:
-        if not value or not value.strip():
-            return None
-        for fmt in self.formats:
-            try:
-                return datetime.strptime(value.strip(), fmt).date()
-            except ValueError:
-                continue
-        return None

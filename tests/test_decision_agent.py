@@ -106,3 +106,38 @@ class TestDecisionAgent:
         result = self.agent.decide("corr-007", "99999", self._matching_comparisons())
         assert result.correction_id == "corr-007"
         assert result.loan_number == "99999"
+
+    def test_info_mismatch_routes_to_manual_review(self):
+        comparison = FieldComparison(
+            field_name="loan_amount",
+            document_value="N/A",
+            record_value="250000",
+            is_match=False,
+            similarity_score=0.0,
+            mismatch_severity=MismatchSeverity.INFO,
+        )
+        result = self.agent.decide("corr-008", "12345", [comparison])
+        assert result.decision == ReviewDecision.MANUAL_REVIEW
+        assert "unparseable" in result.escalation_reason.lower()
+
+    def test_info_plus_critical_rejects(self):
+        comparisons = [
+            FieldComparison(
+                field_name="loan_amount",
+                document_value="N/A",
+                record_value="250000",
+                is_match=False,
+                similarity_score=0.0,
+                mismatch_severity=MismatchSeverity.INFO,
+            ),
+            FieldComparison(
+                field_name="loan_number",
+                document_value="12345",
+                record_value="67890",
+                is_match=False,
+                similarity_score=0.0,
+                mismatch_severity=MismatchSeverity.CRITICAL,
+            ),
+        ]
+        result = self.agent.decide("corr-009", "12345", comparisons)
+        assert result.decision == ReviewDecision.REJECTED

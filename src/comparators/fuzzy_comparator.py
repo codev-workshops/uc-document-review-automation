@@ -6,12 +6,27 @@ from typing import Callable, Iterable, Optional
 
 logger = logging.getLogger(__name__)
 
+# Common address abbreviation mappings
 ADDRESS_ABBREVIATIONS: dict[str, str] = {
-    "street": "st", "avenue": "ave", "boulevard": "blvd", "drive": "dr",
-    "lane": "ln", "road": "rd", "court": "ct", "place": "pl",
-    "circle": "cir", "apartment": "apt", "suite": "ste", "building": "bldg",
-    "north": "n", "south": "s", "east": "e", "west": "w",
+    "street": "st",
+    "avenue": "ave",
+    "boulevard": "blvd",
+    "drive": "dr",
+    "lane": "ln",
+    "road": "rd",
+    "court": "ct",
+    "place": "pl",
+    "circle": "cir",
+    "apartment": "apt",
+    "suite": "ste",
+    "building": "bldg",
+    "north": "n",
+    "south": "s",
+    "east": "e",
+    "west": "w",
 }
+
+# Common name prefixes/suffixes to strip
 NAME_NOISE = {"mr", "mrs", "ms", "dr", "jr", "sr", "ii", "iii", "iv"}
 
 
@@ -96,11 +111,13 @@ class FuzzyComparator:
         )
 
     def compare_names(self, name_a: str, name_b: str) -> float:
+        """Compare two person names with tolerance for ordering and prefixes."""
         return self.similarity(
             self._clean_name_tokens(name_a), self._clean_name_tokens(name_b)
         )
 
     def compare_addresses(self, addr_a: str, addr_b: str) -> float:
+        """Compare two addresses with abbreviation normalization."""
         norm_a = self._normalize_address(addr_a)
         norm_b = self._normalize_address(addr_b)
         if norm_a == norm_b:
@@ -108,17 +125,23 @@ class FuzzyComparator:
         return self.similarity(norm_a.split(), norm_b.split())
 
     def compare_text(self, a: str, b: str) -> float:
+        """Compare generic text using the configured token similarity."""
         return self.similarity(a.lower().split(), b.lower().split())
 
     def _clean_name_tokens(self, name: str) -> list[str]:
+        """Tokenize a name, removing noise words and normalizing."""
         tokens = re.findall(r"[a-z]+", name.lower())
         return [token for token in tokens if token not in self.name_noise]
 
     def _normalize_address(self, address: str) -> str:
+        """Normalize an address by expanding/collapsing abbreviations."""
         addr = address.lower().strip()
+        # Remove punctuation
         addr = re.sub(r"[.,#]", " ", addr)
         addr = " ".join(addr.split())
+        # Expand abbreviations to canonical short form
         for full, abbr in self.address_abbreviations.items():
+            # Also collapse the abbreviated form
             addr = re.sub(rf"\b{full}\b", abbr, addr)
             addr = re.sub(rf"\b{abbr}\.\b", abbr, addr)
         return addr

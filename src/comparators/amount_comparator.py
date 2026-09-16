@@ -43,6 +43,7 @@ class AmountComparator:
         self.rate_tolerance = rate_tolerance
 
     def compare_amounts_detailed(self, amount_a: str, amount_b: str) -> NumericComparison:
+        """Compare amounts and return match status, similarity, and parse status."""
         parsed_a = self._parse_amount(amount_a)
         parsed_b = self._parse_amount(amount_b)
         if parsed_a is None or parsed_b is None:
@@ -61,6 +62,7 @@ class AmountComparator:
         return NumericComparison(False, similarity, ComparisonStatus.MISMATCH)
 
     def compare_rates_detailed(self, rate_a: str, rate_b: str) -> NumericComparison:
+        """Compare rates and return match status, similarity, and parse status."""
         parsed_a = self._parse_rate(rate_a)
         parsed_b = self._parse_rate(rate_b)
         if parsed_a is None or parsed_b is None:
@@ -78,15 +80,18 @@ class AmountComparator:
         return NumericComparison(False, similarity, ComparisonStatus.MISMATCH)
 
     def compare_amounts(self, amount_a: str, amount_b: str) -> tuple[bool, float]:
+        """Compare two monetary amounts."""
         result = self.compare_amounts_detailed(amount_a, amount_b)
         return result.is_match, result.similarity
 
     def compare_rates(self, rate_a: str, rate_b: str) -> tuple[bool, float]:
+        """Compare two interest rates or percentages."""
         result = self.compare_rates_detailed(rate_a, rate_b)
         return result.is_match, result.similarity
 
     @staticmethod
     def _parse_amount(value: str) -> Optional[float]:
+        """Parse a monetary string into a float."""
         if not value:
             return None
         cleaned = re.sub(r"[,$\s]", "", value.strip())
@@ -98,6 +103,7 @@ class AmountComparator:
 
     @staticmethod
     def _parse_rate(value: str) -> Optional[float]:
+        """Parse a rate/percentage string into a float."""
         if not value:
             return None
         stripped = value.strip()

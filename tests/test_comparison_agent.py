@@ -4,6 +4,15 @@ import pytest
 
 from src.agents.comparison_agent import CORRECTION_FIELD_NAMES, ComparisonAgent
 from src.agents.decision_agent import DecisionAgent
+from src.comparators.field_comparator import EXACT_MATCH_FIELDS
+from src.comparators.field_sets import (
+    ADDRESS_FIELDS,
+    AMOUNT_FIELDS,
+    DATE_FIELDS,
+    NAME_FIELDS,
+    RATE_FIELDS,
+)
+from src.comparators.fuzzy_comparator import FuzzyComparator
 from src.models.document import (
     DocumentType,
     ExtractedField,
@@ -68,7 +77,21 @@ class TestComparisonAgent:
     def test_every_correction_type_is_mapped(self, correction_type):
         key = CORRECTION_FIELD_NAMES[correction_type]
         agent = ComparisonAgent()
+        field_sets = (
+            NAME_FIELDS,
+            ADDRESS_FIELDS,
+            AMOUNT_FIELDS,
+            RATE_FIELDS,
+            DATE_FIELDS,
+            EXACT_MATCH_FIELDS,
+        )
+        assert sum(key in fields for fields in field_sets) <= 1
         assert agent.route(key) in {"name", "address", "amount", "rate", "date", "field"}
+
+    def test_default_comparator_strips_name_noise(self):
+        assert ComparisonAgent().fuzzy_comparator.compare_names(
+            "Mr. John Smith", "John Smith"
+        ) == FuzzyComparator().compare_names("Mr. John Smith", "John Smith") == 1.0
 
     def test_corrected_field_names(self):
         payment = ComparisonAgent()._record_to_fields(

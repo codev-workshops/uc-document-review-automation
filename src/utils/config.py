@@ -96,10 +96,7 @@ def load_comparison_config(path: Optional[str | Path] = None) -> ComparisonConfi
         data = yaml.safe_load(stream) or {}
 
     fuzzy = _required(data, "field_rules.fuzzy_match")
-    name = _required(data, "field_rules.fuzzy_match.name_fields")
-    address = _required(data, "field_rules.fuzzy_match.address_fields")
     amount = _required(data, "field_rules.amount_fields")
-    rate = _required(data, "field_rules.rate_fields")
     field_rules = _required(data, "field_rules")
     date_group = field_rules.get("date_fields", {})
     return ComparisonConfig(

@@ -1,7 +1,6 @@
 """PDF document text and table extraction."""
 
 import logging
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 

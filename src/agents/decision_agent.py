@@ -2,7 +2,6 @@
 
 import logging
 from datetime import datetime
-from typing import Optional
 from uuid import uuid4
 
 from src.models.review_result import (
