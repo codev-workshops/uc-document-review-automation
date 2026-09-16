@@ -100,6 +100,13 @@ Set the following environment variables (see `.env.example`):
 | `CONFIDENCE_THRESHOLD` | Minimum confidence for auto-approval (default: 0.95) |
 | `AUDIT_LOG_PATH` | Path for audit log output |
 
+Comparison rules are loaded from `config/comparison_rules.yaml`, or from the path
+in `COMPARISON_RULES_PATH`. Fuzzy matching supports `jaccard`, `levenshtein`,
+and `hybrid`; custom rules can also be passed with
+`ComparisonAgent(config="path/to/rules.yaml")`. `AuditAgent` provides query
+methods for filtering entries by decision, action, agent, confidence, time
+range, loan number, correction, or document.
+
 ## Business Outcomes
 
 - **Operational Efficiency**: Reduce manual review time by up to 70%
