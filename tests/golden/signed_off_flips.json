@@ -1,0 +1,4 @@
+{
+  "_comment": "Golden pairs whose approved -> manual/rejected flip under a candidate algorithm has been manually classified. classification: 'acceptable_correction' | 'regression'. Only acceptable_correction entries let the regression test pass.",
+  "flips": []
+}

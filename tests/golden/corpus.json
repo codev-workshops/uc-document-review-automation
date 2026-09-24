@@ -1,0 +1,1704 @@
+{
+  "pairs": [
+    {
+      "pair_id": "g001",
+      "description": "identical values",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "John Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "g002",
+      "description": "case differences only",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "JOHN SMITH",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 MAIN ST",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "john smith",
+        "borrower_name": "john smith",
+        "property_address": "123 Main St"
+      }
+    },
+    {
+      "pair_id": "g003",
+      "description": "prefix/suffix noise",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Mr. John Smith Jr.",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "g004",
+      "description": "reordered name tokens",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Smith John",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "g005",
+      "description": "address abbreviation",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Maria Garcia",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "456 North Oak Avenue",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Maria Garcia",
+        "borrower_name": "Maria Garcia",
+        "property_address": "456 N Oak Ave"
+      }
+    },
+    {
+      "pair_id": "g006",
+      "description": "address punctuation",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Maria Garcia",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "456 N. Oak Ave., Apt. 3",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Maria Garcia",
+        "borrower_name": "Maria Garcia",
+        "property_address": "456 N Oak Ave Apt 3"
+      }
+    },
+    {
+      "pair_id": "g007",
+      "description": "hyphenated name",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jean-Luc Picard",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "789 Elm Boulevard",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Jean-Luc Picard",
+        "borrower_name": "Jean-Luc Picard",
+        "property_address": "789 Elm Blvd"
+      }
+    },
+    {
+      "pair_id": "g008",
+      "description": "apostrophe name, curly vs straight",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Conor O’Brien",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "12 Court Place",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Conor O'Brien",
+        "borrower_name": "Conor O'Brien",
+        "property_address": "12 Ct Pl"
+      }
+    },
+    {
+      "pair_id": "g009",
+      "description": "unicode accented name",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "José Muñoz",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "34 South River Road",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "JOSÉ MUÑOZ",
+        "borrower_name": "JOSÉ MUÑOZ",
+        "property_address": "34 S River Rd"
+      }
+    },
+    {
+      "pair_id": "g010",
+      "description": "suite abbreviation",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Alice Johnson",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "100 Commerce Drive Suite 200",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Alice Johnson",
+        "borrower_name": "Alice Johnson",
+        "property_address": "100 Commerce Dr Ste 200"
+      }
+    },
+    {
+      "pair_id": "g011",
+      "description": "address correction type",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Wei Chen",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "55 Lake Circle",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "property_address",
+        "current_value": "",
+        "proposed_value": "55 Lake Cir",
+        "borrower_name": "Wei Chen",
+        "property_address": "55 Lake Cir"
+      }
+    },
+    {
+      "pair_id": "g012",
+      "description": "loan amount correction",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Wei Chen",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "55 Lake Circle",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "loan_amount",
+        "current_value": "",
+        "proposed_value": "250000.00",
+        "borrower_name": "Wei Chen",
+        "property_address": "55 Lake Cir"
+      }
+    },
+    {
+      "pair_id": "g013",
+      "description": "interest rate correction",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Wei Chen",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "55 Lake Circle",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "interest_rate",
+        "current_value": "",
+        "proposed_value": "3.5",
+        "borrower_name": "Wei Chen",
+        "property_address": "55 Lake Cir"
+      }
+    },
+    {
+      "pair_id": "g014",
+      "description": "three-token name with middle initial both sides",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Robert A Lee",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "9 West Lane",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Robert A. Lee",
+        "borrower_name": "Robert A. Lee",
+        "property_address": "9 W Ln"
+      }
+    },
+    {
+      "pair_id": "g015",
+      "description": "Dr prefix, building abbreviation",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Dr. Priya Natarajan",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "200 Tech Building 4",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Priya Natarajan",
+        "borrower_name": "Priya Natarajan",
+        "property_address": "200 Tech Bldg 4"
+      }
+    },
+    {
+      "pair_id": "g016",
+      "description": "II suffix noise",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Henry Ford II",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "1 Ford Road",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Henry Ford",
+        "borrower_name": "Henry Ford",
+        "property_address": "1 Ford Rd"
+      }
+    },
+    {
+      "pair_id": "g017",
+      "description": "cyrillic name",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Владимир Петров",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "77 East Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "владимир петров",
+        "borrower_name": "владимир петров",
+        "property_address": "77 E St"
+      }
+    },
+    {
+      "pair_id": "g018",
+      "description": "extra whitespace",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "  Alice   Johnson ",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "100  Commerce   Dr",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Alice Johnson",
+        "borrower_name": "Alice Johnson",
+        "property_address": "100 Commerce Dr"
+      }
+    },
+    {
+      "pair_id": "n001",
+      "description": "single-letter typo in first name",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jon Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "n002",
+      "description": "transposed letters in surname",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Maria Gracia",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "456 N Oak Ave",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Maria Garcia",
+        "borrower_name": "Maria Garcia",
+        "property_address": "456 N Oak Ave"
+      }
+    },
+    {
+      "pair_id": "n003",
+      "description": "missing middle initial",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Robert Lee",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "9 W Ln",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Robert A Lee",
+        "borrower_name": "Robert A Lee",
+        "property_address": "9 W Ln"
+      }
+    },
+    {
+      "pair_id": "n004",
+      "description": "house number off by one digit",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Alice Johnson",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "100 Commerce Dr",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Alice Johnson",
+        "borrower_name": "Alice Johnson",
+        "property_address": "101 Commerce Dr"
+      }
+    },
+    {
+      "pair_id": "n005",
+      "description": "extra unit in document address",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Wei Chen",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "55 Lake Cir Unit B",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Wei Chen",
+        "borrower_name": "Wei Chen",
+        "property_address": "55 Lake Cir"
+      }
+    },
+    {
+      "pair_id": "n006",
+      "description": "double letter dropped",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jonathan Harris",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "8 Pine Court",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Jonathan Haris",
+        "borrower_name": "Jonathan Haris",
+        "property_address": "8 Pine Ct"
+      }
+    },
+    {
+      "pair_id": "n007",
+      "description": "accent stripped by OCR",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jose Munoz",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "34 S River Rd",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "José Muñoz",
+        "borrower_name": "José Muñoz",
+        "property_address": "34 S River Rd"
+      }
+    },
+    {
+      "pair_id": "n008",
+      "description": "hyphen dropped",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jean Luc Picard",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "789 Elm Blvd",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Jean-Luc Picard",
+        "borrower_name": "Jean-Luc Picard",
+        "property_address": "789 Elm Blvd"
+      }
+    },
+    {
+      "pair_id": "m001",
+      "description": "different borrower",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Jane Doe",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "m002",
+      "description": "different address",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "John Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "789 Elm Boulevard"
+      }
+    },
+    {
+      "pair_id": "m003",
+      "description": "critical loan amount mismatch",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "John Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$260,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "m004",
+      "description": "critical loan number mismatch",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-9999999",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "John Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "m005",
+      "description": "critical interest rate mismatch",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "John Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "4.000%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "m006",
+      "description": "same surname different person",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Michael Smith",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    },
+    {
+      "pair_id": "m007",
+      "description": "same street different city number",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "Alice Johnson",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "100 Commerce Dr",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "Alice Johnson",
+        "borrower_name": "Alice Johnson",
+        "property_address": "900 Commerce Dr Suite 1"
+      }
+    },
+    {
+      "pair_id": "m008",
+      "description": "empty document name",
+      "document": {
+        "document_type": "loan_modification",
+        "fields": [
+          {
+            "field_name": "loan_number",
+            "field_value": "LN-1002345",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "borrower_name",
+            "field_value": "",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "property_address",
+            "field_value": "123 Main Street",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "loan_amount",
+            "field_value": "$250,000.00",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "interest_rate",
+            "field_value": "3.500%",
+            "confidence": 0.98
+          },
+          {
+            "field_name": "maturity_date",
+            "field_value": "2054-06-01",
+            "confidence": 0.98
+          }
+        ]
+      },
+      "record": {
+        "loan_number": "LN-1002345",
+        "loan_amount": 250000.0,
+        "interest_rate": 3.5,
+        "maturity_date": "2054-06-01",
+        "correction_type": "borrower_name",
+        "current_value": "",
+        "proposed_value": "John Smith",
+        "borrower_name": "John Smith",
+        "property_address": "123 Main Street"
+      }
+    }
+  ]
+}

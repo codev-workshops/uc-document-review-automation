@@ -1,0 +1,948 @@
+{
+  "generated_with": {
+    "name_algorithm": "jaccard",
+    "name_threshold": 0.85,
+    "address_algorithm": "jaccard",
+    "address_threshold": 0.8,
+    "confidence_threshold": 0.95
+  },
+  "corpus_size": 34,
+  "all_decisions": {
+    "g001": "auto_approved",
+    "g002": "auto_approved",
+    "g003": "auto_approved",
+    "g004": "auto_approved",
+    "g005": "auto_approved",
+    "g006": "auto_approved",
+    "g007": "auto_approved",
+    "g008": "auto_approved",
+    "g009": "auto_approved",
+    "g010": "auto_approved",
+    "g011": "auto_approved",
+    "g012": "auto_approved",
+    "g013": "auto_approved",
+    "g014": "auto_approved",
+    "g015": "auto_approved",
+    "g016": "auto_approved",
+    "g017": "auto_approved",
+    "g018": "auto_approved",
+    "n001": "manual_review",
+    "n002": "manual_review",
+    "n003": "manual_review",
+    "n004": "manual_review",
+    "n005": "manual_review",
+    "n006": "manual_review",
+    "n007": "manual_review",
+    "n008": "manual_review",
+    "m001": "manual_review",
+    "m002": "manual_review",
+    "m003": "rejected",
+    "m004": "rejected",
+    "m005": "rejected",
+    "m006": "manual_review",
+    "m007": "manual_review",
+    "m008": "manual_review"
+  },
+  "golden_pairs": [
+    {
+      "pair_id": "g001",
+      "description": "identical values",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "John Smith",
+          "record_value": "John Smith",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "123 Main Street",
+          "record_value": "123 Main Street",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g002",
+      "description": "case differences only",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "JOHN SMITH",
+          "record_value": "john smith",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "123 MAIN ST",
+          "record_value": "123 Main St",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g003",
+      "description": "prefix/suffix noise",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Mr. John Smith Jr.",
+          "record_value": "John Smith",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "123 Main Street",
+          "record_value": "123 Main Street",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g004",
+      "description": "reordered name tokens",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Smith John",
+          "record_value": "John Smith",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "123 Main Street",
+          "record_value": "123 Main Street",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g005",
+      "description": "address abbreviation",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Maria Garcia",
+          "record_value": "Maria Garcia",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "456 North Oak Avenue",
+          "record_value": "456 N Oak Ave",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g006",
+      "description": "address punctuation",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Maria Garcia",
+          "record_value": "Maria Garcia",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "456 N. Oak Ave., Apt. 3",
+          "record_value": "456 N Oak Ave Apt 3",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g007",
+      "description": "hyphenated name",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Jean-Luc Picard",
+          "record_value": "Jean-Luc Picard",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "789 Elm Boulevard",
+          "record_value": "789 Elm Blvd",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g008",
+      "description": "apostrophe name, curly vs straight",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Conor O’Brien",
+          "record_value": "Conor O'Brien",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "12 Court Place",
+          "record_value": "12 Ct Pl",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g009",
+      "description": "unicode accented name",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "José Muñoz",
+          "record_value": "JOSÉ MUÑOZ",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "34 South River Road",
+          "record_value": "34 S River Rd",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g010",
+      "description": "suite abbreviation",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Alice Johnson",
+          "record_value": "Alice Johnson",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "100 Commerce Drive Suite 200",
+          "record_value": "100 Commerce Dr Ste 200",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g011",
+      "description": "address correction type",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Wei Chen",
+          "record_value": "Wei Chen",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "55 Lake Circle",
+          "record_value": "55 Lake Cir",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g012",
+      "description": "loan amount correction",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Wei Chen",
+          "record_value": "Wei Chen",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "55 Lake Circle",
+          "record_value": "55 Lake Cir",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.00",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g013",
+      "description": "interest rate correction",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Wei Chen",
+          "record_value": "Wei Chen",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "55 Lake Circle",
+          "record_value": "55 Lake Cir",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g014",
+      "description": "three-token name with middle initial both sides",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Robert A Lee",
+          "record_value": "Robert A. Lee",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "9 West Lane",
+          "record_value": "9 W Ln",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g015",
+      "description": "Dr prefix, building abbreviation",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Dr. Priya Natarajan",
+          "record_value": "Priya Natarajan",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "200 Tech Building 4",
+          "record_value": "200 Tech Bldg 4",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g016",
+      "description": "II suffix noise",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Henry Ford II",
+          "record_value": "Henry Ford",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "1 Ford Road",
+          "record_value": "1 Ford Rd",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g017",
+      "description": "cyrillic name",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "Владимир Петров",
+          "record_value": "владимир петров",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "77 East Street",
+          "record_value": "77 E St",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    },
+    {
+      "pair_id": "g018",
+      "description": "extra whitespace",
+      "decision": "auto_approved",
+      "overall_confidence": 1.0,
+      "fields": [
+        {
+          "field_name": "loan_number",
+          "document_value": "LN-1002345",
+          "record_value": "LN-1002345",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "borrower_name",
+          "document_value": "  Alice   Johnson ",
+          "record_value": "Alice Johnson",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "property_address",
+          "document_value": "100  Commerce   Dr",
+          "record_value": "100 Commerce Dr",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "loan_amount",
+          "document_value": "$250,000.00",
+          "record_value": "250000.0",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "interest_rate",
+          "document_value": "3.500%",
+          "record_value": "3.5",
+          "similarity_score": 1.0,
+          "is_match": true
+        },
+        {
+          "field_name": "maturity_date",
+          "document_value": "2054-06-01",
+          "record_value": "2054-06-01",
+          "similarity_score": 1.0,
+          "is_match": true
+        }
+      ]
+    }
+  ]
+}

@@ -100,6 +100,63 @@ Set the following environment variables (see `.env.example`):
 | `CONFIDENCE_THRESHOLD` | Minimum confidence for auto-approval (default: 0.95) |
 | `AUDIT_LOG_PATH` | Path for audit log output |
 
+### Fuzzy-matching algorithms (`config/comparison_rules.yaml`)
+
+Name and address comparison is driven entirely by `comparison.fuzzy_match` in
+`config/comparison_rules.yaml` (override the path with `COMPARISON_RULES_PATH`;
+built-in defaults matching this file apply if it is missing). Each of
+`name_fields` / `address_fields` selects an `algorithm` and carries a
+per-algorithm threshold:
+
+```yaml
+name_fields:
+  algorithm: jaccard          # active strategy: jaccard | levenshtein
+  threshold: 0.85             # cutoff used when no algorithm_thresholds entry exists
+  algorithm_thresholds:
+    jaccard: 0.85
+    levenshtein: 0.97         # calibrated by scripts/ab_accuracy_harness.py
+```
+
+Normalization (case folding, name-noise removal, address abbreviation
+expansion, Unicode-aware tokenization that preserves hyphens/apostrophes) is a
+shared pre-step; only the final scoring function changes per algorithm.
+
+**Default is `jaccard`, so shipping this config is a behavioural no-op.**
+
+#### Rollout: enable Levenshtein
+
+1. Edit `config/comparison_rules.yaml` and set `algorithm: levenshtein` under
+   `name_fields` and/or `address_fields`. The calibrated cutoff in
+   `algorithm_thresholds.levenshtein` (0.97 names, 0.98 addresses) is picked up
+   automatically; do **not** reuse the Jaccard cutoffs — at 0.85/0.80
+   Levenshtein produces false positives (see `reports/ab_accuracy_report.md`).
+2. Verify before deploying:
+   ```bash
+   pytest -q                                   # golden regression + A/B calibration tests
+   python scripts/ab_accuracy_harness.py       # refreshes reports/ab_accuracy_report.md
+   ```
+   `tests/test_golden_regression.py` fails if any previously AUTO_APPROVED pair
+   in `tests/golden/golden_baseline.json` flips under the active config, unless
+   the flip is listed in `tests/golden/signed_off_flips.json` with a
+   `classification` (`acceptable_correction` or `regression`) and `signed_off_by`.
+   Every run writes `reports/golden_flip_report.md`.
+3. Deploy the config change; no code change is required.
+
+#### Rollback
+
+Set `algorithm: jaccard` back (the Jaccard threshold travels with it via
+`algorithm_thresholds.jaccard`) and redeploy. Because normalization is shared,
+rolling back restores byte-identical pre-Levenshtein scores.
+
+#### Refreshing the golden baseline
+
+Only when a scoring change is intentionally accepted:
+
+```bash
+python scripts/build_golden_corpus.py     # deterministic 34-pair corpus
+python scripts/build_golden_baseline.py   # always snapshots with jaccard/jaccard
+```
+
 ## Business Outcomes
 
 - **Operational Efficiency**: Reduce manual review time by up to 70%

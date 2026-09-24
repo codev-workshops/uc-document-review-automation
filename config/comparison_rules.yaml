@@ -9,17 +9,30 @@ field_rules:
     - certificate_number
     - tracking_number
 
-  # Fuzzy matching with tolerance
+  # Fuzzy matching with tolerance.
+  # `algorithm` selects the scoring strategy (see src/comparators/strategies.py:
+  # jaccard | levenshtein). `threshold` is the active cutoff; it must travel
+  # with the algorithm, so `algorithm_thresholds` records the calibrated cutoff
+  # per algorithm (from reports/ab_accuracy_report.md). When `threshold` is
+  # omitted the loader picks `algorithm_thresholds[algorithm]`.
   fuzzy_match:
     name_fields:
+      algorithm: jaccard
       threshold: 0.85
+      algorithm_thresholds:
+        jaccard: 0.85
+        levenshtein: 0.97
       fields:
         - borrower_name
         - original_borrower
         - new_borrower
         - recipient_name
     address_fields:
+      algorithm: jaccard
       threshold: 0.80
+      algorithm_thresholds:
+        jaccard: 0.80
+        levenshtein: 0.98
       fields:
         - property_address
         - recipient_address

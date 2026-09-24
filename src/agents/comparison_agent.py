@@ -4,28 +4,28 @@ import logging
 from typing import Optional
 
 from src.comparators.amount_comparator import AmountComparator
-from src.comparators.field_comparator import FieldComparator
+from src.comparators.field_comparator import CRITICAL_FIELDS, FieldComparator
 from src.comparators.fuzzy_comparator import FuzzyComparator
+from src.comparators.strategies import get_address_strategy, get_name_strategy
+from src.config.loader import ComparisonConfig, load_comparison_config
 from src.models.document import ExtractionResult
 from src.models.loan_record import LoanCorrectionRecord
 from src.models.review_result import FieldComparison, MismatchSeverity
 
 logger = logging.getLogger(__name__)
 
-# Fields that use specialized comparators
-NAME_FIELDS = {"borrower_name", "original_borrower", "new_borrower", "recipient_name"}
-ADDRESS_FIELDS = {"property_address", "recipient_address"}
-AMOUNT_FIELDS = {"loan_amount", "original_amount", "current_balance", "new_payment_amount"}
-RATE_FIELDS = {"interest_rate", "new_interest_rate", "coverage_percentage"}
-
 
 class ComparisonAgent:
     """Compares extracted document fields against loan correction records."""
 
-    def __init__(self) -> None:
+    def __init__(self, config: Optional[ComparisonConfig] = None) -> None:
+        self.config = config or load_comparison_config()
         self.field_comparator = FieldComparator()
-        self.fuzzy_comparator = FuzzyComparator()
-        self.amount_comparator = AmountComparator()
+        self.fuzzy_comparator = FuzzyComparator(
+            name_strategy=get_name_strategy(self.config.name_fields.algorithm),
+            address_strategy=get_address_strategy(self.config.address_fields.algorithm),
+        )
+        self.amount_comparator = AmountComparator(tolerance=self.config.amount_tolerance)
 
     def compare(
         self,
@@ -63,28 +63,26 @@ class ComparisonAgent:
         record_value: str,
     ) -> FieldComparison:
         """Route a field comparison to the appropriate comparator."""
-        if field_name in NAME_FIELDS:
+        cfg = self.config
+        if field_name in cfg.name_fields.fields:
             similarity = self.fuzzy_comparator.compare_names(doc_value, record_value)
-            is_match = similarity >= 0.85
-        elif field_name in ADDRESS_FIELDS:
+            is_match = similarity >= cfg.name_fields.threshold
+        elif field_name in cfg.address_fields.fields:
             similarity = self.fuzzy_comparator.compare_addresses(doc_value, record_value)
-            is_match = similarity >= 0.80
-        elif field_name in AMOUNT_FIELDS:
+            is_match = similarity >= cfg.address_fields.threshold
+        elif field_name in cfg.amount_fields:
             is_match, similarity = self.amount_comparator.compare_amounts(
                 doc_value, record_value
             )
-        elif field_name in RATE_FIELDS:
+        elif field_name in cfg.rate_fields:
             is_match, similarity = self.amount_comparator.compare_rates(
                 doc_value, record_value
             )
         else:
-            result = self.field_comparator.compare(field_name, doc_value, record_value)
-            return result
+            return self.field_comparator.compare(field_name, doc_value, record_value)
 
         severity: Optional[MismatchSeverity] = None
         if not is_match:
-            from src.comparators.field_comparator import CRITICAL_FIELDS
-
             severity = (
                 MismatchSeverity.CRITICAL
                 if field_name in CRITICAL_FIELDS
