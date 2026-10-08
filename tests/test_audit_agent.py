@@ -7,7 +7,6 @@ from pathlib import Path
 from src.agents.audit_agent import AuditAgent
 from src.models.review_result import (
     FieldComparison,
-    MismatchSeverity,
     ReviewDecision,
     ReviewResult,
 )
@@ -88,3 +87,73 @@ class TestAuditAgent:
         self.agent.log_extraction("doc-001", "pdf", 3, "completed")
         self.agent.log_comparison("rev-001", "corr-001", 5, 0)
         assert len(self.agent.entries) == 2
+
+
+class TestAuditAgentPersistence:
+    def test_default_log_path_created_under_cwd(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+
+        agent = AuditAgent()
+
+        assert agent.log_path == Path("logs/audit.jsonl")
+        assert (tmp_path / "logs").is_dir()
+
+    def test_creates_missing_parent_directories(self, tmp_path):
+        log_path = tmp_path / "nested" / "dir" / "audit.jsonl"
+
+        AuditAgent(log_path=str(log_path)).log_extraction("d", "other", 0, "failed")
+
+        assert log_path.exists()
+
+    def test_non_decision_entries_serialize_null_decision(self, tmp_path):
+        log_path = tmp_path / "audit.jsonl"
+        agent = AuditAgent(log_path=str(log_path))
+
+        agent.log_comparison("rev-1", "COR-000001", total_fields=3, mismatches=1)
+
+        record = json.loads(log_path.read_text().splitlines()[0])
+        assert record["decision"] is None
+        assert record["confidence"] is None
+        assert record["metadata"] == {}
+        assert record["output_summary"] == "total_fields=3, mismatches=1"
+
+    def test_log_decision_records_escalation(self, tmp_path):
+        agent = AuditAgent(log_path=str(tmp_path / "audit.jsonl"))
+        result = ReviewResult(
+            review_id="rev-2",
+            correction_id="COR-000002",
+            loan_number="1234567890",
+            decision=ReviewDecision.REJECTED,
+            overall_confidence=0.5,
+            field_comparisons=[
+                FieldComparison(
+                    field_name="loan_amount",
+                    document_value="1",
+                    record_value="2",
+                    is_match=False,
+                    similarity_score=0.5,
+                )
+            ],
+            escalation_reason="1 critical field mismatch(es): loan_amount",
+        )
+
+        entry = agent.log_decision(result)
+
+        assert entry.metadata == {
+            "mismatch_count": "1",
+            "escalation_reason": "1 critical field mismatch(es): loan_amount",
+        }
+        assert entry.output_summary == "decision=rejected, confidence=0.5000"
+
+    def test_appends_across_instances(self, tmp_path):
+        log_path = str(tmp_path / "audit.jsonl")
+        AuditAgent(log_path=log_path).log_extraction("a", "other", 0, "failed")
+        AuditAgent(log_path=log_path).log_extraction("b", "other", 0, "failed")
+
+        assert len(Path(log_path).read_text().splitlines()) == 2
+
+    def test_get_entries_for_unknown_review(self, tmp_path):
+        agent = AuditAgent(log_path=str(tmp_path / "audit.jsonl"))
+        agent.log_comparison("rev-1", "COR-1", 1, 0)
+
+        assert agent.get_entries_for_review("rev-unknown") == []

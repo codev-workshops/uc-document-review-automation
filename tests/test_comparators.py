@@ -1,5 +1,7 @@
 """Tests for field, fuzzy, and amount comparators."""
 
+import pytest
+
 from src.comparators.amount_comparator import AmountComparator
 from src.comparators.field_comparator import FieldComparator
 from src.comparators.fuzzy_comparator import FuzzyComparator
@@ -178,3 +180,65 @@ class TestAmountComparator:
         is_match, score = self.comparator.compare_rates("abc", "3.5")
         assert is_match is False
         assert score == 0.0
+
+
+class TestComparatorEdgeCases:
+    @pytest.mark.parametrize(
+        "field_name, doc_value, record_value, expected_match, expected_score",
+        [
+            ("modification_date", "a", "b", False, 0.0),
+            ("modification_date", "a", "a", True, 1.0),
+            ("borrower_name", "a", "a", True, 1.0),
+            ("borrower_name", "a", "b", False, 0.0),
+            ("borrower_name", "", "", True, 1.0),
+            ("borrower_name", "", "John", False, 0.0),
+        ],
+    )
+    def test_field_comparator_short_values(
+        self, field_name, doc_value, record_value, expected_match, expected_score
+    ):
+        result = FieldComparator().compare(field_name, doc_value, record_value)
+        assert result.is_match is expected_match
+        assert result.similarity_score == expected_score
+
+    def test_field_comparator_normalizes_whitespace(self):
+        result = FieldComparator().compare("loan_number", "  123   45 ", "123 45")
+        assert result.is_match is True
+
+    @pytest.mark.parametrize(
+        "rate_a, rate_b",
+        [("", "3.5"), ("3.5", ""), ("abc", "3.5"), ("3.5", "n/a")],
+    )
+    def test_rate_unparseable(self, rate_a, rate_b):
+        assert AmountComparator().compare_rates(rate_a, rate_b) == (False, 0.0)
+
+    @pytest.mark.parametrize(
+        "amount_a, amount_b", [("", "100"), ("100", ""), ("12abc", "100")]
+    )
+    def test_amount_unparseable(self, amount_a, amount_b):
+        assert AmountComparator().compare_amounts(amount_a, amount_b) == (False, 0.0)
+
+    def test_amount_custom_tolerance(self):
+        comparator = AmountComparator(tolerance=5.0)
+        assert comparator.compare_amounts("100", "104.99") == (True, 1.0)
+        is_match, score = comparator.compare_amounts("100", "110")
+        assert is_match is False
+        assert score == pytest.approx(1 - 10 / 110)
+
+    def test_amount_negative_values(self):
+        is_match, score = AmountComparator().compare_amounts("-100", "100")
+        assert is_match is False
+        assert score == 0.0
+
+    def test_fuzzy_names_only_noise_tokens(self):
+        comparator = FuzzyComparator()
+        assert comparator.compare_names("Mr. Jr.", "Dr.") == 1.0
+        assert comparator.compare_names("Mr.", "John") == 0.0
+
+    def test_fuzzy_addresses_partial_overlap(self):
+        score = FuzzyComparator().compare_addresses("123 Main Street", "123 Oak Street")
+        assert score == pytest.approx(2 / 4)
+
+    def test_fuzzy_addresses_empty(self):
+        assert FuzzyComparator().compare_addresses("", "") == 1.0
+        assert FuzzyComparator().compare_addresses("", "1 Main St") == 0.0

@@ -88,6 +88,18 @@ python -m src.agents.comparison_agent --document data/sample_documents/ --record
 python -m src.agents.decision_agent --input data/sample_documents/ --records data/schemas/
 ```
 
+## Running Tests
+
+```bash
+pip install -r requirements.txt
+python -m pytest            # runs the suite with line + branch coverage for src/
+```
+
+Coverage settings live in `pytest.ini` and `.coveragerc`; the run fails if total
+coverage drops below the `--cov-fail-under` gate. Tests make no network calls
+(a fixture in `tests/conftest.py` blocks socket connections). CI runs the same
+command via `.github/workflows/tests.yml`.
+
 ## Configuration
 
 Set the following environment variables (see `.env.example`):
